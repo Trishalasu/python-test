@@ -1,0 +1,63 @@
+def number_of_ways_attend(n: int) -> int:
+    """
+    A student can't miss 4 or more consecutive days. For n=1,2 and 3 above
+    condition doesn't apply; for n=4, the combination '0000' is not allowed, and
+    so we subtract 1 from the total number of combinations.
+
+    Args: 
+        n (int): number of days in the academic year
+
+    Returns: 
+        int : Number of ways a student can attend Graduation
+    """
+    if n == 4: return 15
+    if n == 3: return 8
+    if n == 2: return 4
+    if n == 1: return 2
+    if n in num_ways_attend:
+        return num_ways_attend[n]
+    else:
+        num_ways_attend[n] = number_of_ways_attend(n-4)+number_of_ways_attend(n-3)+number_of_ways_attend(n-2)+number_of_ways_attend(n-1)
+    return num_ways_attend[n]
+
+
+
+def number_of_ways_absent(n: int) -> int:
+    """
+    For n=4, the combination '0000' is not allowed, and so we subtract 1 from
+    the total number of combinations
+
+    Args: 
+        n (int): number of days in the academic year
+
+    Returns: 
+        int : Number of ways a student will be absent at Graduation
+    """
+    if n == 4: return 7
+    if n == 3: return 4 
+    if n == 2: return 2 
+    if n == 1: return 1
+    if n in num_ways_absent:
+        return num_ways_absent[n]
+    else:
+        num_ways_absent[n] = number_of_ways_absent(n-4)+number_of_ways_absent(n-3)+number_of_ways_absent(n-2)+number_of_ways_absent(n-1)
+    return num_ways_absent[n]
+
+def find_probability(academic_days_list: list) -> str:
+    """
+    Returns the probability that a student will miss the graduation day
+
+    Args: 
+        academic_days_list (list): list of number of days for different academic years
+
+    Returns: 
+        str : Probability that a student will miss the graduation day
+    """
+    for n in academic_days_list:
+        print(str(number_of_ways_absent(n)) + "/" + str(number_of_ways_attend(n)))
+  
+if __name__ == "__main__":
+    num_ways_attend = dict()
+    num_ways_absent = dict()
+    academic_days_list = [5, 10]
+    find_probability(academic_days_list)
